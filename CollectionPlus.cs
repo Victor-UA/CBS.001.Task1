@@ -6,47 +6,33 @@ namespace Task01
     static class CollectionPlus
     {                
         public static IEnumerable Skip(this IEnumerable collection, int n)
-        {
-            object[] resultArray = new object[10];
+        {            
             int i = 0;            
             foreach (var item in collection)
             {
                 if (i >= n)
                 {
-                    ArrayAdd(ref resultArray, item, i - n);
+                    yield return item;                    
                 }                
                 i++;
-            }
-
-            if (resultArray.Length > i - n)
-            {
-                ArrayResize(ref resultArray, i - n);
-            }
-
-            return resultArray;
+            }            
         }
 
         public static IEnumerable Take(this IEnumerable collection, int n)
         {
-            object[] resultArray = new object[n];
             int i = 0;
             foreach (var item in collection)
             {
                 if (i < n)
                 {
-                    resultArray[i] = item;
+                    yield return item;
                 }
                 else
                 {
                     break;
                 }
                 i++;
-            }
-            if (resultArray.Length > i)
-            {
-                ArrayResize(ref resultArray, i);
-            }
-            return resultArray;
+            }            
         }
 
         public static IEnumerable Distinct(this IEnumerable collection)
@@ -60,7 +46,8 @@ namespace Task01
                 {
                     if (item.Equals(arrayItem))
                     {
-                        unique = false;
+                        unique = false;                        
+                        break;
                     }
                 }
                 if (unique)
